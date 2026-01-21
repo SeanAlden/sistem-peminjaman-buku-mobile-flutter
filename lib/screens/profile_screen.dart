@@ -153,12 +153,48 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Stack(
             alignment: Alignment.bottomRight,
             children: [
+              // CircleAvatar(
+              //   radius: 56,
+              //   backgroundImage: profileImage != null
+              //       ? NetworkImage(
+              //           profileImage!
+              //         )
+              //       : const AssetImage("assets/profile.png") as ImageProvider,
+              // ),
+
               CircleAvatar(
                 radius: 56,
-                backgroundImage: profileImage != null
-                    ? NetworkImage(profileImage!)
-                    : const AssetImage("assets/profile.png") as ImageProvider,
+                backgroundColor: Colors.grey.shade200,
+                child: ClipOval(
+                  child: Image.network(
+                    // KONDISI 1
+                    profileImage!,
+                    width: 112,
+                    height: 112,
+                    fit: BoxFit.cover,
+
+                    errorBuilder: (context, error, stackTrace) {
+                      // KONDISI 2
+                      return Image.network(
+                        'https://cellar-c2.services.clever-cloud.com/book-image-bucket/profile_images/${profileImage!}',
+                        width: 112,
+                        height: 112,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          // KONDISI 3 (FINAL FALLBACK)
+                          return Image.asset(
+                            'assets/profile.png',
+                            width: 112,
+                            height: 112,
+                            fit: BoxFit.cover,
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
               ),
+
               GestureDetector(
                 onTap: _showImageSourcePicker,
                 child: Container(

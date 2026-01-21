@@ -72,17 +72,11 @@ class ProfileRepository {
         "Accept": "application/json",
         "Content-Type": "application/json",
       },
-      // body: jsonEncode({
-      //   "current_password": current,
-      //   "new_password": newPass,
-      //   "new_password_confirmation": confirm,
-      // }),
-
-      body: {
+      body: jsonEncode({
         "current_password": current,
         "new_password": newPass,
         "new_password_confirmation": confirm,
-      },
+      }),
     );
 
     return {

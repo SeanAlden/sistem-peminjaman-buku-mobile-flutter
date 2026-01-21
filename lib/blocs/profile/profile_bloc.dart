@@ -30,6 +30,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
     final user = jsonDecode(userJson);
     emit(ProfileLoaded(
+      user["name"],
       user["email"],
       user["profile_image"],
     ));
@@ -47,7 +48,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString("auth_user", jsonEncode(res["body"]["user"]));
 
-      add(LoadProfileEvent());
+      emit(ProfileUpdated());
+      // add(LoadProfileEvent());
     } catch (e) {
       emit(ProfileError("Gagal update profile"));
     }
@@ -65,6 +67,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       final prefs = await SharedPreferences.getInstance();
       final user = jsonDecode(prefs.getString("auth_user")!);
       user["profile_image"] = res["profile_image_url"];
+      // user["profile_image"] = res["profile_image"];
 
       await prefs.setString("auth_user", jsonEncode(user));
 
@@ -74,21 +77,39 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
   }
 
+  // Future<void> _updatePassword(
+  //   UpdatePasswordEvent event,
+  //   Emitter<ProfileState> emit,
+  // ) async {
+  //   emit(ProfileLoading());
+  //   try {
+  //     final res = await repo.updatePassword(
+  //       event.currentPassword,
+  //       event.newPassword,
+  //       event.confirmPassword,
+  //     );
+
+  //     final prefs = await SharedPreferences.getInstance();
+  //     await prefs.setString("auth_user", jsonEncode(res["body"]["user"]));
+
+  //     emit(PasswordUpdated());
+  //   } catch (e) {
+  //     emit(ProfileError("Password lama salah atau gagal update"));
+  //   }
+  // }
   Future<void> _updatePassword(
     UpdatePasswordEvent event,
     Emitter<ProfileState> emit,
   ) async {
     emit(ProfileLoading());
     try {
-      final res = await repo.updatePassword(
+      await repo.updatePassword(
         event.currentPassword,
         event.newPassword,
         event.confirmPassword,
       );
 
-      // emit(ProfilePasswordUpdated());
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString("auth_user", jsonEncode(res["body"]["user"]));
+      emit(PasswordUpdated());
     } catch (e) {
       emit(ProfileError("Password lama salah atau gagal update"));
     }

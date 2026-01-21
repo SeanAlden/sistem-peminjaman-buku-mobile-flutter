@@ -10,9 +10,10 @@ class ProfileInitial extends ProfileState {}
 class ProfileLoading extends ProfileState {}
 
 class ProfileLoaded extends ProfileState {
+  final String name;
   final String email;
   final String? profileImage;
-  ProfileLoaded(this.email, this.profileImage);
+  ProfileLoaded(this.name, this.email, this.profileImage);
 }
 
 class ProfileUpdated extends ProfileState {}
