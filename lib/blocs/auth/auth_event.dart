@@ -22,24 +22,32 @@ class RegisterEvent extends AuthEvent {
   RegisterEvent(this.name, this.email, this.phone, this.password, this.confirmPassword);
 }
 
-class UpdateProfileEvent extends AuthEvent {
-  final String name;
-  final String email;
-
-  UpdateProfileEvent(this.name, this.email);
-}
-
-class UpdatePasswordEvent extends AuthEvent {
-  final String currentPassword;
-  final String newPassword;
-  final String confirmPassword;
-
-  UpdatePasswordEvent(
-    this.currentPassword,
-    this.newPassword,
-    this.confirmPassword,
-  );
-}
-
 class CheckAuthTokenEvent extends AuthEvent {}
+
 class LogoutEvent extends AuthEvent {}
+
+// class UpdatePasswordEvent extends AuthEvent {
+//   final String currentPassword;
+//   final String newPassword;
+//   final String confirmPassword;
+
+//   UpdatePasswordEvent(
+//     this.currentPassword,
+//     this.newPassword,
+//     this.confirmPassword,
+//   );
+// }
+
+// class UpdateProfileEvent extends AuthEvent {
+//   final String name;
+//   final String email;
+
+//   UpdateProfileEvent(this.name, this.email);
+// }
+
+// class UpdateProfileImageEvent extends AuthEvent {
+//   final String imagePath;
+
+//   UpdateProfileImageEvent(this.imagePath);
+// }
+

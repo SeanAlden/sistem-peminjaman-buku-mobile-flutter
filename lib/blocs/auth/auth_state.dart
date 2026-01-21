@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class AuthState extends Equatable {
+abstract class AuthState extends Equatable {
   @override
   List<Object?> get props => [];
 }
@@ -24,6 +24,15 @@ class AuthError extends AuthState {
   AuthError(this.message);
 }
 
-class AuthProfileUpdated extends AuthState {}
+// class AuthProfileUpdated extends AuthState {}
 
-class AuthPasswordUpdated extends AuthState {}
+// class AuthPasswordUpdated extends AuthState {}
+
+// class AuthProfileImageUpdated extends AuthState {
+//   final String imageUrl;
+//   AuthProfileImageUpdated(this.imageUrl);
+// }
+
+// class AuthProfileImageUploading extends AuthState {}
+
+

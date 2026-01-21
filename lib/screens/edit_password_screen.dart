@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/blocs/auth/auth_bloc.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/blocs/auth/auth_event.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/blocs/auth/auth_state.dart';
+import 'package:sistem_peminjaman_buku_mobile_app/blocs/profile/profile_bloc.dart';
+import 'package:sistem_peminjaman_buku_mobile_app/blocs/profile/profile_event.dart';
+import 'package:sistem_peminjaman_buku_mobile_app/blocs/profile/profile_state.dart';
 
 class EditPasswordScreen extends StatefulWidget {
   const EditPasswordScreen({super.key});
@@ -17,7 +20,7 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
   final confirmCtrl = TextEditingController();
 
   void _submit() {
-    context.read<AuthBloc>().add(
+    context.read<ProfileBloc>().add(
           UpdatePasswordEvent(
             currentCtrl.text,
             newCtrl.text,
@@ -30,9 +33,9 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Ganti Password")),
-      body: BlocListener<AuthBloc, AuthState>(
+      body: BlocListener<ProfileBloc, ProfileState>(
         listener: (context, state) {
-          if (state is AuthPasswordUpdated) {
+          if (state is PasswordUpdated) {
             Navigator.pop(context);
           }
         },

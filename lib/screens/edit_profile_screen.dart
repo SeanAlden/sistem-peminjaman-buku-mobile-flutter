@@ -6,6 +6,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/blocs/auth/auth_bloc.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/blocs/auth/auth_event.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/blocs/auth/auth_state.dart';
+import 'package:sistem_peminjaman_buku_mobile_app/blocs/profile/profile_bloc.dart';
+import 'package:sistem_peminjaman_buku_mobile_app/blocs/profile/profile_event.dart';
+import 'package:sistem_peminjaman_buku_mobile_app/blocs/profile/profile_state.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -33,7 +36,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   void _submit() {
     context
-        .read<AuthBloc>()
+        .read<ProfileBloc>()
         .add(UpdateProfileEvent(nameCtrl.text, emailCtrl.text));
   }
 
@@ -41,9 +44,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Edit Profil")),
-      body: BlocListener<AuthBloc, AuthState>(
+      body: BlocListener<ProfileBloc, ProfileState>(
         listener: (context, state) {
-          if (state is AuthProfileUpdated) {
+          if (state is ProfileUpdated) {
             Navigator.pop(context);
           }
         },

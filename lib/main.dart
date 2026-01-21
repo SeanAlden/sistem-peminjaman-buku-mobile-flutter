@@ -125,6 +125,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/blocs/category_detail/category_detail_bloc.dart';
+import 'package:sistem_peminjaman_buku_mobile_app/blocs/profile/profile_bloc.dart';
 
 import 'package:sistem_peminjaman_buku_mobile_app/repositories/auth_repository.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/repositories/category_repository.dart';
@@ -135,6 +136,7 @@ import 'package:sistem_peminjaman_buku_mobile_app/blocs/auth/auth_bloc.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/blocs/category/category_bloc.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/blocs/book/book_bloc.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/blocs/favorite/favorite_bloc.dart';
+import 'package:sistem_peminjaman_buku_mobile_app/repositories/profile_repository.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/screens/book_detail_screen.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/screens/category_detail_screen.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/screens/chat_list_screen.dart';
@@ -164,6 +166,7 @@ class MyApp extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(create: (_) => AuthRepository()),
+        RepositoryProvider(create: (_) => ProfileRepository()),
         RepositoryProvider(create: (_) => CategoryRepository()),
         RepositoryProvider(create: (_) => BookRepository()),
         RepositoryProvider(create: (_) => FavoriteRepository()),
@@ -172,6 +175,9 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(
             create: (context) => AuthBloc(context.read<AuthRepository>()),
+          ),
+          BlocProvider(
+            create: (context) => ProfileBloc(context.read<ProfileRepository>()),
           ),
           BlocProvider(
             create: (context) =>
