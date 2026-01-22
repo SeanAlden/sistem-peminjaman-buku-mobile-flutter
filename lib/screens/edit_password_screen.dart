@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sistem_peminjaman_buku_mobile_app/blocs/auth/auth_bloc.dart';
-import 'package:sistem_peminjaman_buku_mobile_app/blocs/auth/auth_event.dart';
-import 'package:sistem_peminjaman_buku_mobile_app/blocs/auth/auth_state.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/blocs/profile/profile_bloc.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/blocs/profile/profile_event.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/blocs/profile/profile_state.dart';
@@ -20,6 +17,12 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
   final confirmCtrl = TextEditingController();
 
   void _submit() {
+    if (newCtrl.text != confirmCtrl.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Password baru tidak sama")),
+      );
+      return;
+    }
     context.read<ProfileBloc>().add(
           UpdatePasswordEvent(
             currentCtrl.text,
@@ -37,6 +40,11 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
         listener: (context, state) {
           if (state is PasswordUpdated) {
             Navigator.pop(context);
+          }
+          if (state is ProfileError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.message)),
+            );
           }
         },
         child: Padding(

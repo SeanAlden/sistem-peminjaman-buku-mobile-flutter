@@ -15,7 +15,6 @@
 
 // lib/screens/home_screen.dart
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,6 +27,8 @@ import 'package:sistem_peminjaman_buku_mobile_app/blocs/category/category_state.
 import 'package:sistem_peminjaman_buku_mobile_app/blocs/favorite/favorite_bloc.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/blocs/favorite/favorite_event.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/blocs/favorite/favorite_state.dart';
+import 'package:sistem_peminjaman_buku_mobile_app/blocs/profile/profile_bloc.dart';
+import 'package:sistem_peminjaman_buku_mobile_app/blocs/profile/profile_state.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/main.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/screens/book_search_screen.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/screens/category_search_screen.dart';
@@ -98,41 +99,54 @@ class _HomeScreenState extends State<HomeScreen> {
   //   } catch (_) {}
   // }
 
-  Future<void> _loadUser() async {
-    final prefs = await SharedPreferences.getInstance();
+  // Future<void> _loadUser() async {
+  //   final prefs = await SharedPreferences.getInstance();
 
-    // Load user name dari local storage
+  //   // Load user name dari local storage
+  //   final userJson = prefs.getString('auth_user');
+  //   if (userJson != null) {
+  //     try {
+  //       final user = jsonDecode(userJson);
+  //       setState(() {
+  //         userName = user['name'] ?? 'Guest';
+  //       });
+  //     } catch (_) {}
+  //   }
+
+  //   // Load profile image dari endpoint
+  //   try {
+  //     final token = prefs.getString('auth_token');
+  //     if (token != null) {
+  //       final uri =
+  //           Uri.parse('${BookRepository.baseUrl}/api/user/profile-image');
+  //       final res = await http.get(uri, headers: {
+  //         'Authorization': 'Bearer $token',
+  //       });
+
+  //       if (res.statusCode == 200) {
+  //         final data = jsonDecode(res.body);
+  //         if (data['profile_image'] != null && data['profile_image'] != "") {
+  //           setState(() {
+  //             profileImage = data['profile_image'];
+  //           });
+  //         }
+  //       }
+  //     }
+  //   } catch (_) {
+  //     // jika error, biarkan profileImage tetap null
+  //   }
+  // }
+
+    Future<void> _loadUser() async {
+    final prefs = await SharedPreferences.getInstance();
     final userJson = prefs.getString('auth_user');
     if (userJson != null) {
-      try {
-        final user = jsonDecode(userJson);
-        setState(() {
-          userName = user['name'] ?? 'Guest';
-        });
-      } catch (_) {}
-    }
+      final user = jsonDecode(userJson);
 
-    // Load profile image dari endpoint
-    try {
-      final token = prefs.getString('auth_token');
-      if (token != null) {
-        final uri =
-            Uri.parse('${BookRepository.baseUrl}/api/user/profile-image');
-        final res = await http.get(uri, headers: {
-          'Authorization': 'Bearer $token',
-        });
-
-        if (res.statusCode == 200) {
-          final data = jsonDecode(res.body);
-          if (data['profile_image'] != null && data['profile_image'] != "") {
-            setState(() {
-              profileImage = data['profile_image'];
-            });
-          }
-        }
-      }
-    } catch (_) {
-      // jika error, biarkan profileImage tetap null
+      setState(() {
+        userName = user['name'] ?? 'Guest';
+        profileImage = user['profile_image'];
+      });
     }
   }
 
@@ -286,45 +300,116 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               children: [
                 // Header user
+                // Container(
+                //   color: Colors.white,
+                //   padding:
+                //       const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                //   child: Row(
+                //     children: [
+                //       CircleAvatar(
+                //         radius: 28,
+                //         backgroundImage: profileImage != null
+                //             ? NetworkImage(profileImage!)
+                //             : const AssetImage('assets/profile.png')
+                //                 as ImageProvider,
+                //         onBackgroundImageError: (_, __) {
+                //           setState(() {
+                //             profileImage = null; // fallback ke default
+                //           });
+                //         },
+                //       ),
+                //       const SizedBox(width: 12),
+                //       Expanded(
+                //         child: Text(
+                //           'Hi, $userName',
+                //           style: const TextStyle(
+                //               fontSize: 22, fontWeight: FontWeight.bold),
+                //         ),
+                //       ),
+                //       GestureDetector(
+                //         onTap: () => Navigator.push(
+                //           context,
+                //           MaterialPageRoute(
+                //               builder: (context) => const BookSearchScreen()),
+                //         ),
+                //         child: const Icon(Icons.search, size: 28),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+
                 Container(
                   color: Colors.white,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  child: Row(
-                    children: [
-                      // CircleAvatar(
-                      //   radius: 28,
-                      //   backgroundImage: AssetImage('assets/profile.png'),
-                      // ),
-                      CircleAvatar(
-                        radius: 28,
-                        backgroundImage: profileImage != null
-                            ? NetworkImage(profileImage!)
-                            : const AssetImage('assets/profile.png')
-                                as ImageProvider,
-                        onBackgroundImageError: (_, __) {
-                          setState(() {
-                            profileImage = null; // fallback ke default
-                          });
-                        },
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          'Hi, $userName',
-                          style: const TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const BookSearchScreen()),
-                        ),
-                        child: const Icon(Icons.search, size: 28),
-                      ),
-                    ],
+                  child: BlocBuilder<ProfileBloc, ProfileState>(
+                    buildWhen: (prev, curr) => curr is ProfileLoaded,
+                    builder: (context, state) {
+                      if (state is ProfileLoaded) {
+                        return Row(
+                          children: [
+                            // CircleAvatar(
+                            //   radius: 28,
+                            //   backgroundImage: state.profileImage != null
+                            //       ? NetworkImage('https://cellar-c2.services.clever-cloud.com/book-image-bucket/profile_images/${state.profileImage}')
+                            //       : const AssetImage('assets/profile.png')
+                            //           as ImageProvider,
+                            // ),
+                            CircleAvatar(
+                              radius: 28,
+                              backgroundColor: Colors.grey.shade200,
+                              child: ClipOval(
+                                child: Image.network(
+                                  // KONDISI 1
+                                  profileImage ?? '',
+                                  width: 112,
+                                  height: 112,
+                                  fit: BoxFit.cover,
+
+                                  errorBuilder: (context, error, stackTrace) {
+                                    // KONDISI 2
+                                    return Image.network(
+                                      'https://cellar-c2.services.clever-cloud.com/book-image-bucket/profile_images/${profileImage}',
+                                      width: 112,
+                                      height: 112,
+                                      fit: BoxFit.cover,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        // KONDISI 3 (FINAL FALLBACK)
+                                        return Image.asset(
+                                          'assets/profile.png',
+                                          width: 112,
+                                          height: 112,
+                                          fit: BoxFit.cover,
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                'Hi, ${state.name}',
+                                style: const TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, '/search');
+                              },
+                              child: const Icon(Icons.search, size: 28),
+                            ),
+                          ],
+                        );
+                      }
+
+                      return const SizedBox(height: 56); // placeholder
+                    },
                   ),
                 ),
 

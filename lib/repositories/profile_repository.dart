@@ -55,7 +55,37 @@ class ProfileRepository {
   //   );
   // }
 
-  Future<Map<String, dynamic>> updatePassword(
+  // Future<Map<String, dynamic>> updatePassword(
+  //   String current,
+  //   String newPass,
+  //   String confirm,
+  // ) async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final token = prefs.getString("auth_token");
+
+  //   final uri = Uri.parse("$baseurl/api/user/password");
+
+  //   final response = await http.put(
+  //     uri,
+  //     headers: {
+  //       "Authorization": "Bearer $token",
+  //       "Accept": "application/json",
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: jsonEncode({
+  //       "current_password": current,
+  //       "new_password": newPass,
+  //       "new_password_confirmation": confirm,
+  //     }),
+  //   );
+
+  //   return {
+  //     "statusCode": response.statusCode,
+  //     "body": jsonDecode(response.body)
+  //   };
+  // }
+
+  Future<void> updatePassword(
     String current,
     String newPass,
     String confirm,
@@ -79,16 +109,10 @@ class ProfileRepository {
       }),
     );
 
-    return {
-      "statusCode": response.statusCode,
-      "body": jsonDecode(response.body)
-    };
-
-    // if (response.statusCode != 200) {
-    //   throw Exception(
-    //     "Failed to update password: ${response.body}",
-    //   );
-    // }
+    if (response.statusCode != 200) {
+      final body = jsonDecode(response.body);
+      throw Exception(body["message"] ?? "Gagal update password");
+    }
   }
 
   // Future<Map<String, dynamic>> updateProfileImage(String imagePath) async {

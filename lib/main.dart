@@ -126,6 +126,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/blocs/category_detail/category_detail_bloc.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/blocs/profile/profile_bloc.dart';
+import 'package:sistem_peminjaman_buku_mobile_app/blocs/profile/profile_event.dart';
 
 import 'package:sistem_peminjaman_buku_mobile_app/repositories/auth_repository.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/repositories/category_repository.dart';
@@ -177,7 +178,7 @@ class MyApp extends StatelessWidget {
             create: (context) => AuthBloc(context.read<AuthRepository>()),
           ),
           BlocProvider(
-            create: (context) => ProfileBloc(context.read<ProfileRepository>()),
+            create: (context) => ProfileBloc(context.read<ProfileRepository>())..add(LoadProfileEvent()),
           ),
           BlocProvider(
             create: (context) =>

@@ -29,6 +29,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
+    context.read<ProfileBloc>().add(LoadProfileEvent());
 
     _userFuture = _loadUser();
   }
