@@ -1,19 +1,3 @@
-// import 'package:flutter/material.dart';
-
-// class HomeScreen extends StatelessWidget {
-//   const HomeScreen({super.key});
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: Text("Home")),
-//       body: Center(child: Text("Home Screen")),
-//     );
-//   }
-// }
-
-// ignore_for_file: unused_field
-
-// lib/screens/home_screen.dart
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late final FavoriteRepository _favoriteRepo;
 
   String userName = 'Guest';
-  String? profileImage;
+  // String? profileImage;
 
   @override
   void initState() {
@@ -60,19 +44,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // Provide blocs directly here or via parent MultiBlocProvider
     // We'll create local providers using BlocProvider.value in build.
-    _loadUserAndFetch();
+    // _loadUserAndFetch();
   }
 
-  Future<void> _loadUserAndFetch() async {
-    await _loadUser();
-    // dispatch events after a short delay to ensure Blocs are available
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
-      context.read<BookBloc>().add(FetchBooksEvent());
-      context.read<CategoryBloc>().add(FetchCategoriesEvent());
-      context.read<FavoriteBloc>().add(FetchFavoritesEvent());
-    });
-  }
+  // Future<void> _loadUserAndFetch() async {
+  //   await _loadUser();
+  //   // dispatch events after a short delay to ensure Blocs are available
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     if (!mounted) return;
+  //     context.read<BookBloc>().add(FetchBooksEvent());
+  //     context.read<CategoryBloc>().add(FetchCategoriesEvent());
+  //     context.read<FavoriteBloc>().add(FetchFavoritesEvent());
+  //   });
+  // }
 
   // Future<void> _loadUser() async {
   //   final prefs = await SharedPreferences.getInstance();
@@ -137,18 +121,18 @@ class _HomeScreenState extends State<HomeScreen> {
   //   }
   // }
 
-    Future<void> _loadUser() async {
-    final prefs = await SharedPreferences.getInstance();
-    final userJson = prefs.getString('auth_user');
-    if (userJson != null) {
-      final user = jsonDecode(userJson);
+  // Future<void> _loadUser() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final userJson = prefs.getString('auth_user');
+  //   if (userJson != null) {
+  //     final user = jsonDecode(userJson);
 
-      setState(() {
-        userName = user['name'] ?? 'Guest';
-        profileImage = user['profile_image'];
-      });
-    }
-  }
+  //     setState(() {
+  //       userName = user['name'] ?? 'Guest';
+  //       // profileImage = user['profile_image'];
+  //     });
+  //   }
+  // }
 
   Future<void> _onRefresh() async {
     context.read<BookBloc>().add(FetchBooksEvent());
@@ -361,7 +345,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: ClipOval(
                                 child: Image.network(
                                   // KONDISI 1
-                                  profileImage ?? '',
+                                  state.profileImage ?? '',
                                   width: 112,
                                   height: 112,
                                   fit: BoxFit.cover,
@@ -369,7 +353,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   errorBuilder: (context, error, stackTrace) {
                                     // KONDISI 2
                                     return Image.network(
-                                      'https://cellar-c2.services.clever-cloud.com/book-image-bucket/profile_images/${profileImage}',
+                                      'https://cellar-c2.services.clever-cloud.com/book-image-bucket/profile_images/${state.profileImage}',
                                       width: 112,
                                       height: 112,
                                       fit: BoxFit.cover,
@@ -388,6 +372,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ),
+
+                            // CircleAvatar(
+                            //   radius: 28,
+                            //   backgroundColor: Colors.grey.shade200,
+                            //   backgroundImage: state.profileImage != null &&
+                            //           state.profileImage!.isNotEmpty
+                            //       ? NetworkImage(state.profileImage!)
+                            //       : const AssetImage('assets/profile.png')
+                            //           as ImageProvider,
+                            // ),
+
                             const SizedBox(width: 12),
                             Expanded(
                               child: Text(
