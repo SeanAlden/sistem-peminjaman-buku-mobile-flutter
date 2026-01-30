@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
+import 'package:sistem_peminjaman_buku_mobile_app/const/api_url.dart';
 
-import '../../repositories/book_repository.dart';
 import 'category_detail_event.dart';
 import 'category_detail_state.dart';
 
@@ -16,7 +16,7 @@ class CategoryDetailBloc extends Bloc<CategoryDetailEvent, CategoryDetailState> 
       FetchCategoryDetailEvent event, Emitter<CategoryDetailState> emit) async {
     emit(CategoryDetailLoading());
 
-    final url = Uri.parse('${BookRepository.baseUrl}/api/categories/${event.categoryId}');
+    final url = Uri.parse('${baseurl}/api/categories/${event.categoryId}');
 
     try {
       final res = await http.get(url);

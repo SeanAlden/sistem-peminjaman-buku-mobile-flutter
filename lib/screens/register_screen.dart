@@ -61,192 +61,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     backgroundColor: Colors.grey[100],
-  //     appBar: AppBar(
-  //       title: const Text("Register"),
-  //       centerTitle: true,
-  //       automaticallyImplyLeading: false,
-  //     ),
-  //     body: BlocConsumer<AuthBloc, AuthState>(
-  //       listener: (context, state) {
-  //         setState(() => loading = state is AuthLoading);
-
-  //         if (state is AuthAuthenticated) {
-  //           Navigator.pushReplacement(
-  //             context,
-  //             MaterialPageRoute(builder: (_) => const MainTabs()),
-  //           );
-  //         }
-
-  //         if (state is AuthError) {
-  //           ScaffoldMessenger.of(context)
-  //               .showSnackBar(SnackBar(content: Text(state.message)));
-  //         }
-  //       },
-  //       builder: (context, state) {
-  //         return Padding(
-  //           padding: const EdgeInsets.all(20),
-  //           child: Card(
-  //             elevation: 4,
-  //             shape: RoundedRectangleBorder(
-  //                 borderRadius: BorderRadius.circular(16)),
-  //             child: Padding(
-  //               padding: const EdgeInsets.all(20),
-  //               child: ListView(
-  //                 children: [
-  //                   Text(
-  //                     "Create Your New Account",
-  //                     style: Theme.of(context).textTheme.headlineSmall,
-  //                     textAlign: TextAlign.center,
-  //                   ),
-  //                   const SizedBox(height: 20),
-  //                   TextField(
-  //                     controller: nameCtrl,
-  //                     decoration: const InputDecoration(
-  //                       labelText: "Nama",
-  //                       border: OutlineInputBorder(),
-  //                     ),
-  //                   ),
-  //                   const SizedBox(height: 12),
-  //                   TextField(
-  //                     controller: emailCtrl,
-  //                     decoration: const InputDecoration(
-  //                       labelText: "Email",
-  //                       border: OutlineInputBorder(),
-  //                     ),
-  //                   ),
-  //                   const SizedBox(height: 12),
-  //                   TextField(
-  //                     controller: phoneCtrl,
-  //                     decoration: const InputDecoration(
-  //                       labelText: "Phone",
-  //                       border: OutlineInputBorder(),
-  //                     ),
-  //                   ),
-  //                   const SizedBox(height: 12),
-  //                   TextField(
-  //                     controller: passCtrl,
-  //                     obscureText: obscurePass,
-  //                     decoration: InputDecoration(
-  //                       labelText: "Password",
-  //                       border: const OutlineInputBorder(),
-  //                       suffixIcon: IconButton(
-  //                         icon: Icon(
-  //                           obscurePass
-  //                               ? Icons.visibility_off
-  //                               : Icons.visibility,
-  //                         ),
-  //                         onPressed: () {
-  //                           setState(() => obscurePass = !obscurePass);
-  //                         },
-  //                       ),
-  //                     ),
-  //                   ),
-  //                   const SizedBox(height: 12),
-  //                   TextField(
-  //                     controller: confPassCtrl,
-  //                     obscureText: obscureConfirm,
-  //                     decoration: InputDecoration(
-  //                       labelText: "Konfirmasi Password",
-  //                       border: const OutlineInputBorder(),
-  //                       suffixIcon: IconButton(
-  //                         icon: Icon(
-  //                           obscureConfirm
-  //                               ? Icons.visibility_off
-  //                               : Icons.visibility,
-  //                         ),
-  //                         onPressed: () {
-  //                           setState(() => obscureConfirm = !obscureConfirm);
-  //                         },
-  //                       ),
-  //                     ),
-  //                   ),
-  //                   const SizedBox(height: 25),
-  //                   SizedBox(
-  //                     width: double.infinity,
-  //                     height: 45,
-  //                     child: loading
-  //                         ? const Center(child: CircularProgressIndicator())
-  //                         : ElevatedButton(
-  //                             onPressed: () {
-  //                               if (nameCtrl.text.isEmpty ||
-  //                                   emailCtrl.text.isEmpty ||
-  //                                   phoneCtrl.text.isEmpty ||
-  //                                   passCtrl.text.isEmpty ||
-  //                                   confPassCtrl.text.isEmpty) {
-  //                                 showAlert("Semua data wajib diisi");
-  //                                 return;
-  //                               }
-
-  //                               if (!isValidEmail(emailCtrl.text)) {
-  //                                 showAlert("Format email tidak valid");
-  //                                 return;
-  //                               }
-
-  //                               if (passCtrl.text.length < 6) {
-  //                                 showAlert("Password minimal 6 karakter");
-  //                                 return;
-  //                               }
-
-  //                               if (passCtrl.text != confPassCtrl.text) {
-  //                                 showAlert(
-  //                                     "Password dan konfirmasi tidak sama");
-  //                                 return;
-  //                               }
-
-  //                               context.read<AuthBloc>().add(
-  //                                     RegisterEvent(
-  //                                       nameCtrl.text,
-  //                                       emailCtrl.text,
-  //                                       phoneCtrl.text,
-  //                                       passCtrl.text,
-  //                                       confPassCtrl.text,
-  //                                     ),
-  //                                   );
-  //                             },
-  //                             child: const Text("Register"),
-  //                           ),
-  //                   ),
-  //                   const SizedBox(height: 15),
-  //                   RichText(
-  //                     textAlign: TextAlign.center,
-  //                     text: TextSpan(
-  //                       style: const TextStyle(fontSize: 14),
-  //                       children: [
-  //                         const TextSpan(
-  //                           text: "Sudah punya akun? ",
-  //                           style: TextStyle(color: Colors.black),
-  //                         ),
-  //                         TextSpan(
-  //                           text: "Login",
-  //                           style: const TextStyle(
-  //                             color: Colors.blue,
-  //                             fontWeight: FontWeight.bold,
-  //                           ),
-  //                           recognizer: TapGestureRecognizer()
-  //                             ..onTap = () {
-  //                               Navigator.push(
-  //                                 context,
-  //                                 MaterialPageRoute(
-  //                                     builder: (_) => const LoginScreen()),
-  //                               );
-  //                             },
-  //                         ),
-  //                       ],
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //           ),
-  //         );
-  //       },
-  //     ),
-  //   );
-  // }
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -299,7 +113,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       color: Colors.blue,
                     ),
                     const SizedBox(height: 16),
-
                     const Text(
                       "Create Account",
                       textAlign: TextAlign.center,
@@ -308,18 +121,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-
                     const SizedBox(height: 8),
-
                     Text(
                       "Lengkapi data di bawah untuk membuat akun baru",
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.grey.shade600),
                     ),
-
                     const SizedBox(height: 32),
-
-                    /// NAMA
                     TextField(
                       controller: nameCtrl,
                       decoration: const InputDecoration(
@@ -328,10 +136,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         border: OutlineInputBorder(),
                       ),
                     ),
-
                     const SizedBox(height: 16),
-
-                    /// EMAIL
                     TextField(
                       controller: emailCtrl,
                       keyboardType: TextInputType.emailAddress,
@@ -342,10 +147,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         border: OutlineInputBorder(),
                       ),
                     ),
-
                     const SizedBox(height: 16),
-
-                    /// PHONE
                     TextField(
                       controller: phoneCtrl,
                       keyboardType: TextInputType.phone,
@@ -355,10 +157,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         border: OutlineInputBorder(),
                       ),
                     ),
-
                     const SizedBox(height: 16),
-
-                    /// PASSWORD
                     TextField(
                       controller: passCtrl,
                       obscureText: obscurePass,
@@ -378,10 +177,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                     ),
-
                     const SizedBox(height: 16),
-
-                    /// CONFIRM PASSWORD
                     TextField(
                       controller: confPassCtrl,
                       obscureText: obscureConfirm,
@@ -401,10 +197,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                     ),
-
                     const SizedBox(height: 24),
-
-                    /// REGISTER BUTTON
                     SizedBox(
                       height: 48,
                       child: ElevatedButton(
@@ -457,10 +250,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                       ),
                     ),
-
                     const SizedBox(height: 24),
-
-                    /// LOGIN LINK
                     Center(
                       child: RichText(
                         text: TextSpan(
@@ -490,7 +280,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                     ),
-
                     const SizedBox(height: 20),
                   ],
                 ),

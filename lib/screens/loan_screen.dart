@@ -1,127 +1,3 @@
-// import 'package:dio/dio.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter/widgets.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:sistem_peminjaman_buku_mobile_app/blocs/loan/loan_bloc.dart';
-// import 'package:sistem_peminjaman_buku_mobile_app/blocs/loan/loan_event.dart';
-// import 'package:sistem_peminjaman_buku_mobile_app/blocs/loan/loan_state.dart';
-
-// class LoanScreen extends StatelessWidget {
-//   const LoanScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocProvider(
-//       create: (_) => LoanBloc(Dio())..add(FetchLoansEvent()),
-//       child: Scaffold(
-//         appBar: AppBar(title: const Text("Daftar Peminjaman Saya")),
-//         body: BlocBuilder<LoanBloc, LoanState>(
-//           builder: (context, state) {
-//             if (state is LoanLoading) {
-//               return const Center(child: CircularProgressIndicator());
-//             }
-
-//             if (state is LoanError) {
-//               return Center(child: Text(state.message));
-//             }
-
-//             if (state is LoanLoaded) {
-//               final loans = state.loans;
-
-//               if (loans.isEmpty) {
-//                 return const Center(child: Text("Anda belum memiliki riwayat peminjaman."));
-//               }
-
-//               return ListView.builder(
-//                 padding: const EdgeInsets.all(16),
-//                 itemCount: loans.length,
-//                 itemBuilder: (_, i) {
-//                   final item = loans[i];
-
-//                   return _LoanCard(
-//                     item: item,
-//                     onReturn: (id) => context.read<LoanBloc>().add(RequestReturnEvent(id)),
-//                     onCancel: (id) => context.read<LoanBloc>().add(CancelLoanEvent(id)),
-//                   );
-//                 },
-//               );
-//             }
-
-//             return const SizedBox();
-//           },
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class _LoanCard extends StatelessWidget {
-//   final dynamic item;
-//   final Function(int id) onReturn;
-//   final Function(int id) onCancel;
-
-//   const _LoanCard({
-//     required this.item,
-//     required this.onReturn,
-//     required this.onCancel,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final imageUrl = item['book']['image_url'];
-//     final status = item['status'];
-
-//     return Container(
-//       padding: const EdgeInsets.all(12),
-//       margin: const EdgeInsets.only(bottom: 12),
-//       decoration: BoxDecoration(
-//         color: Colors.grey.shade100,
-//         borderRadius: BorderRadius.circular(12),
-//       ),
-//       child: Row(
-//         children: [
-//           Image.network(
-//             imageUrl ?? "",
-//             width: 90,
-//             height: 90,
-//             errorBuilder: (_, __, ___) => Image.asset("assets/avatar.png", width: 90, height: 90),
-//           ),
-
-//           const SizedBox(width: 12),
-
-//           Expanded(
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 Text(item['book']['title'], style: const TextStyle(fontWeight: FontWeight.bold)),
-//                 Text("Dipinjam: ${item['loan_date']}"),
-//                 Text("Kembali Maks: ${item['return_date']}"),
-
-//                 Text("Status: $status"),
-
-//                 if (status == "borrowed")
-//                   Row(
-//                     children: [
-//                       ElevatedButton(
-//                         onPressed: () => onReturn(item['id']),
-//                         child: const Text("Kembalikan"),
-//                       ),
-//                       const SizedBox(width: 8),
-//                       OutlinedButton(
-//                         onPressed: () => onCancel(item['id']),
-//                         child: const Text("Batalkan"),
-//                       )
-//                     ],
-//                   ),
-//               ],
-//             ),
-//           )
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -260,12 +136,6 @@ class _LoanScreenState extends State<LoanScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // if (isLoading) {
-    //   return const Scaffold(
-    //     body: Center(child: CircularProgressIndicator()),
-    //   );
-    // }
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Loan Screen',
@@ -337,8 +207,16 @@ class LoanCard extends StatelessWidget {
     final imageUrl = book["image_url"];
 
     final loanDate = DateFormat.yMd().format(DateTime.parse(item["loan_date"]));
-    final returnDate =
-        DateFormat.yMd().format(DateTime.parse(item["return_date"]));
+    final maxReturnDate =
+        DateFormat.yMd().format(DateTime.parse(item["max_returned_at"]));
+
+    final returnDate = item["return_date"] != null
+        ? DateFormat.yMd().format(DateTime.parse(item["return_date"]))
+        : "-";
+
+    final actualReturnedAt = item["actual_returned_at"] != null
+        ? DateFormat.yMd().format(DateTime.parse(item["actual_returned_at"]))
+        : "-";
 
     Color statusColor;
     String statusText;
@@ -355,6 +233,26 @@ class LoanCard extends StatelessWidget {
       default:
         statusColor = Colors.green;
         statusText = "Sudah Dikembalikan";
+    }
+
+    Color noteColor;
+    String noteText;
+    switch (item["return_status_note"]) {
+      case "Returned Earlier":
+        noteColor = Colors.green;
+        noteText = "Dikembalikan Lebih Awal";
+        break;
+      case "Returned On Time":
+        noteColor = Colors.blue;
+        noteText = "Tepat Waktu";
+        break;
+      case "Overdue":
+        noteColor = Colors.red;
+        noteText = "Dikembalikan Terlambat";
+        break;
+      default:
+        noteColor = Colors.black;
+        noteText = "-";
     }
 
     return Container(
@@ -404,8 +302,33 @@ class LoanCard extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text("Dipinjam: $loanDate",
                       style: const TextStyle(color: Colors.grey)),
-                  Text("Kembali Maks: $returnDate",
+                  Text("Kembali Maks: $maxReturnDate",
                       style: const TextStyle(color: Colors.grey)),
+                  Text("Tanggal Kembali: $returnDate",
+                      style: const TextStyle(color: Colors.grey)),
+                  Text("Tanggal Konfirmasi Admin: $actualReturnedAt",
+                      style: const TextStyle(color: Colors.grey)),
+                  Text("Keterlambatan Pengembalian: ${item["late_days"]} hari",
+                      style: const TextStyle(
+                          color: Color.fromARGB(255, 255, 138, 95),
+                          fontWeight: FontWeight.bold)),
+                  Row(
+                    children: [
+                      const Text(
+                        "Note: ",
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      Expanded(
+                        child: Text(
+                          noteText,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: noteColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   const SizedBox(height: 6),
                   Row(
                     children: [
@@ -419,6 +342,28 @@ class LoanCard extends StatelessWidget {
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: statusColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Text(
+                        "Denda: ",
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      Expanded(
+                        child: Text(
+                          item["fine_amount"] != null
+                              ? "Rp ${item["fine_amount"]}"
+                              : "Rp 0",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: item["fine_amount"] != null &&
+                                    item["fine_amount"] > 0
+                                ? Colors.red
+                                : Colors.green,
                           ),
                         ),
                       ),

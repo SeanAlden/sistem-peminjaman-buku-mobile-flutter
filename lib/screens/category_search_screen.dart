@@ -20,17 +20,15 @@ class _CategorySearchScreenState extends State<CategorySearchScreen> {
   void initState() {
     super.initState();
 
-    // Fetch category ketika layar dibuka
     context.read<CategoryBloc>().add(FetchCategoriesEvent());
   }
 
   void filterList(List<dynamic> categories) {
     setState(() {
       filtered = categories
-          .where((item) =>
-              (item['name'] as String)
-                  .toLowerCase()
-                  .contains(search.toLowerCase()))
+          .where((item) => (item['name'] as String)
+              .toLowerCase()
+              .contains(search.toLowerCase()))
           .toList();
     });
   }
@@ -50,7 +48,6 @@ class _CategorySearchScreenState extends State<CategorySearchScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            // Kolom Input Pencarian
             Padding(
               padding: const EdgeInsets.all(16),
               child: TextField(
@@ -70,8 +67,6 @@ class _CategorySearchScreenState extends State<CategorySearchScreen> {
                 },
               ),
             ),
-
-            // LIST CATEGORY
             Expanded(
               child: BlocBuilder<CategoryBloc, CategoryState>(
                 builder: (context, state) {
@@ -80,14 +75,12 @@ class _CategorySearchScreenState extends State<CategorySearchScreen> {
                   }
 
                   if (state is CategoryLoaded) {
-                    // apply filtering
                     final displayList = search.isEmpty
                         ? state.categories
                         : state.categories
-                            .where((item) =>
-                                (item['name'] as String)
-                                    .toLowerCase()
-                                    .contains(search.toLowerCase()))
+                            .where((item) => (item['name'] as String)
+                                .toLowerCase()
+                                .contains(search.toLowerCase()))
                             .toList();
 
                     if (displayList.isEmpty) {
@@ -117,8 +110,8 @@ class _CategorySearchScreenState extends State<CategorySearchScreen> {
                                 vertical: 14, horizontal: 16),
                             decoration: const BoxDecoration(
                               border: Border(
-                                bottom: BorderSide(
-                                    color: Colors.grey, width: 0.3),
+                                bottom:
+                                    BorderSide(color: Colors.grey, width: 0.3),
                               ),
                             ),
                             child: Row(

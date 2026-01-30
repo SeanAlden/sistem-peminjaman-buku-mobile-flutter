@@ -1,4 +1,3 @@
-// lib/bloc/category/category_event.dart
 import 'package:equatable/equatable.dart';
 
 abstract class CategoryEvent extends Equatable {

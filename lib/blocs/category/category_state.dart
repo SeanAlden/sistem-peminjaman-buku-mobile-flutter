@@ -1,4 +1,3 @@
-// lib/bloc/category/category_state.dart
 import 'package:equatable/equatable.dart';
 
 abstract class CategoryState extends Equatable {

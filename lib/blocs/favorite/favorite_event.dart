@@ -1,4 +1,3 @@
-// lib/bloc/favorite/favorite_event.dart
 import 'package:equatable/equatable.dart';
 
 abstract class FavoriteEvent extends Equatable {

@@ -6,34 +6,6 @@ import 'package:sistem_peminjaman_buku_mobile_app/blocs/auth/auth_state.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/main.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/screens/login_screen.dart';
 
-// class AuthGate extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<AuthBloc, AuthState>(
-//       builder: (context, state) {
-//         if (state is AuthAuthenticated) return MainTabs();
-//         return LoginScreen();
-//       },
-//     );
-//   }
-// }
-
-// class AuthGate extends StatelessWidget {
-//   const AuthGate({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<AuthBloc, AuthState>(
-//       builder: (context, state) {
-//         if (state is AuthAuthenticated) {
-//           return const MainTabs();
-//         }
-//         return const LoginScreen();
-//       },
-//     );
-//   }
-// }
-
 class AuthGate extends StatefulWidget {
   const AuthGate({super.key});
 

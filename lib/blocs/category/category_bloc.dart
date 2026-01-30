@@ -1,4 +1,3 @@
-// lib/bloc/category/category_bloc.dart
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'category_event.dart';
 import 'category_state.dart';

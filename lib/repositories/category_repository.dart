@@ -1,12 +1,11 @@
-// lib/repositories/category_repository.dart
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:sistem_peminjaman_buku_mobile_app/const/api_url.dart';
 
 class CategoryRepository {
-  static const String baseUrl = "https://sistem-peminjaman-buku-admin.vercel.app/api";
 
   Future<List<dynamic>> fetchCategories() async {
-    final uri = Uri.parse('$baseUrl/api/categories');
+    final uri = Uri.parse('$baseurl/api/categories');
     final response = await http.get(uri, headers: {
       'Accept': 'application/json',
     });
@@ -21,7 +20,7 @@ class CategoryRepository {
   }
 
     Future<List<dynamic>> fetchCategoryDetail(int categoryId) async {
-    final uri = Uri.parse("$baseUrl/api/categories/$categoryId");
+    final uri = Uri.parse("$baseurl/api/categories/$categoryId");
     final response = await http.get(uri);
 
     if (response.statusCode == 200) {

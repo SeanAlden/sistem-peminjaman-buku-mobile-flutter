@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/blocs/book_detail/book_detail_event.dart';
 import 'package:sistem_peminjaman_buku_mobile_app/blocs/book_detail/book_detail_state.dart';
-import 'package:sistem_peminjaman_buku_mobile_app/repositories/book_repository.dart';
+import 'package:sistem_peminjaman_buku_mobile_app/const/api_url.dart';
 
 class BookDetailBloc extends Bloc<BookDetailEvent, BookDetailState> {
   final Dio dio;
@@ -20,11 +20,10 @@ class BookDetailBloc extends Bloc<BookDetailEvent, BookDetailState> {
     emit(BookDetailLoading());
 
     try {
-      // final token = await storage.read(key: "auth_token");
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString("auth_token");
       final response = await dio.get(
-        "${BookRepository.baseUrl}/api/book-details/${event.bookId}",
+        "${baseurl}/api/book-details/${event.bookId}",
         options: Options(headers: {"Authorization": "Bearer $token"}),
       );
 
@@ -37,12 +36,11 @@ class BookDetailBloc extends Bloc<BookDetailEvent, BookDetailState> {
   Future<void> _loan(LoanBookEvent event, Emitter<BookDetailState> emit) async {
     emit(BookDetailSubmitting());
     try {
-      // final token = await storage.read(key: "auth_token");
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString("auth_token");
 
       await dio.post(
-        "${BookRepository.baseUrl}/api/loans",
+        "${baseurl}/api/loans",
         data: {"book_id": event.bookId},
         options: Options(headers: {"Authorization": "Bearer $token"}),
       );
@@ -57,12 +55,11 @@ class BookDetailBloc extends Bloc<BookDetailEvent, BookDetailState> {
       ReserveBookEvent event, Emitter<BookDetailState> emit) async {
     emit(BookDetailSubmitting());
     try {
-      // final token = await storage.read(key: "auth_token");
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString("auth_token");
 
       await dio.post(
-        "${BookRepository.baseUrl}/api/reservations",
+        "${baseurl}/api/reservations",
         data: {"book_id": event.bookId},
         options: Options(headers: {"Authorization": "Bearer $token"}),
       );
@@ -77,12 +74,11 @@ class BookDetailBloc extends Bloc<BookDetailEvent, BookDetailState> {
       CancelReservationEvent event, Emitter<BookDetailState> emit) async {
     emit(BookDetailSubmitting());
     try {
-      // final token = await storage.read(key: "auth_token");
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString("auth_token");
 
       await dio.delete(
-        "${BookRepository.baseUrl}/api/reservations/${event.reservationId}",
+        "${baseurl}/api/reservations/${event.reservationId}",
         options: Options(headers: {"Authorization": "Bearer $token"}),
       );
     } catch (e) {

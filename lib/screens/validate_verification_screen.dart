@@ -45,31 +45,6 @@ class _ValidateVerificationScreenState
     super.dispose();
   }
 
-  // Future<void> verifyCode() async {
-  //   final code = ctrls.map((e) => e.text).join();
-
-  //   final response = await http.post(
-  //     Uri.parse("$baseurl/api/verify-code"),
-  //     headers: {'Content-Type': 'application/json'},
-  //     body: jsonEncode({
-  //       'email': widget.email,
-  //       'code': code,
-  //     }),
-  //   );
-
-  //   if (response.statusCode == 200) {
-  //     Navigator.pushReplacement(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (_) => ResetPasswordScreen(email: widget.email),
-  //       ),
-  //     );
-  //   } else {
-  //     final msg = jsonDecode(response.body)['message'];
-  //     showAlert(msg);
-  //   }
-  // }
-
   Future<void> verifyCode() async {
     final code = ctrls.map((e) => e.text).join();
 
@@ -101,34 +76,6 @@ class _ValidateVerificationScreenState
     }
   }
 
-  // Future<void> resendOtp() async {
-  //   setState(() => resendLoading = true);
-
-  //   final response = await http.post(
-  //     Uri.parse("$baseurl/api/forgot-password"),
-  //     headers: {'Content-Type': 'application/json'},
-  //     body: jsonEncode({'email': widget.email}),
-  //   );
-
-  //   setState(() => resendLoading = false);
-
-  //   if (response.statusCode == 200) {
-  //     for (final c in ctrls) {
-  //       c.clear();
-  //     }
-  //     FocusScope.of(context).requestFocus(FocusNode());
-
-  //     startResendTimer();
-
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(content: Text("Kode OTP berhasil dikirim ulang")),
-  //     );
-  //   } else {
-  //     final msg = jsonDecode(response.body)['message'];
-  //     showAlert(msg);
-  //   }
-  // }
-
   Future<void> resendOtp() async {
     if (resendCount >= maxResend) return;
 
@@ -143,7 +90,7 @@ class _ValidateVerificationScreenState
     setState(() => resendLoading = false);
 
     if (response.statusCode == 200) {
-      resendCount++; // 🔥 PENTING
+      resendCount++;
 
       for (final c in ctrls) {
         c.clear();
@@ -192,27 +139,6 @@ class _ValidateVerificationScreenState
     });
   }
 
-  // Widget codeBox(int index) {
-  //   return SizedBox(
-  //     width: 55,
-  //     child: TextField(
-  //       controller: ctrls[index],
-  //       maxLength: 1,
-  //       keyboardType: TextInputType.number,
-  //       textAlign: TextAlign.center,
-  //       decoration: const InputDecoration(counterText: ''),
-  //       onChanged: (value) {
-  //         if (value.isNotEmpty && index < 3) {
-  //           FocusScope.of(context).nextFocus();
-  //         }
-  //         if (ctrls.every((c) => c.text.isNotEmpty)) {
-  //           verifyCode();
-  //         }
-  //       },
-  //     ),
-  //   );
-  // }
-
   Widget codeBox(int index) {
     return SizedBox(
       width: 60,
@@ -243,19 +169,6 @@ class _ValidateVerificationScreenState
       ),
     );
   }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(title: const Text("Verification Code")),
-  //     body: Center(
-  //       child: Row(
-  //         mainAxisAlignment: MainAxisAlignment.center,
-  //         children: List.generate(4, codeBox),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -289,7 +202,6 @@ class _ValidateVerificationScreenState
                   color: Colors.blue,
                 ),
                 const SizedBox(height: 16),
-
                 const Text(
                   "Masukkan Kode Verifikasi",
                   style: TextStyle(
@@ -298,35 +210,18 @@ class _ValidateVerificationScreenState
                   ),
                   textAlign: TextAlign.center,
                 ),
-
                 const SizedBox(height: 8),
-
                 Text(
                   "Kode verifikasi telah dikirim ke\n${widget.email}",
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.grey.shade600),
                 ),
-
                 const SizedBox(height: 32),
-
-                /// OTP INPUT
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: List.generate(4, codeBox),
                 ),
-
                 const SizedBox(height: 32),
-
-                // resendLoading
-                //     ? const CircularProgressIndicator(strokeWidth: 2)
-                //     : TextButton(
-                //         onPressed: resendSeconds == 0 ? resendOtp : null,
-                //         child: resendSeconds == 0
-                //             ? const Text("Kirim ulang kode")
-                //             : Text(
-                //                 "Kirim ulang dalam 00:${resendSeconds.toString().padLeft(2, '0')}"),
-                //       ),
-
                 resendLoading
                     ? const CircularProgressIndicator(strokeWidth: 2)
                     : TextButton(
@@ -345,13 +240,8 @@ class _ValidateVerificationScreenState
                                     "Kirim ulang dalam 00:${resendSeconds.toString().padLeft(2, '0')}",
                                   ),
                       ),
-
-                /// LOADING
                 if (loading) const CircularProgressIndicator(),
-
                 const SizedBox(height: 16),
-
-                /// INFO
                 Text(
                   "Kode akan diverifikasi secara otomatis",
                   style: TextStyle(

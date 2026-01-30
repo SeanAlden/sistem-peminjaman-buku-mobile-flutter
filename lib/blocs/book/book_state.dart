@@ -1,4 +1,3 @@
-// lib/bloc/book/book_state.dart
 import 'package:equatable/equatable.dart';
 
 abstract class BookState extends Equatable {

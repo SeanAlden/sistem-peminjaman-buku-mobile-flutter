@@ -56,7 +56,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
     final tempMessage = {
       "id": tempId,
-      // "from_id": null,
       "from_id": myId,
       "body": event.message,
       "created_at":

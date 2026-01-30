@@ -66,48 +66,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     );
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(title: const Text("Reset Password")),
-  //     body: Padding(
-  //       padding: const EdgeInsets.all(20),
-  //       child: Column(
-  //         children: [
-  //           TextField(
-  //             controller: passCtrl,
-  //             obscureText: true,
-  //             decoration: const InputDecoration(
-  //               labelText: "New Password",
-  //               border: OutlineInputBorder(),
-  //             ),
-  //           ),
-  //           const SizedBox(height: 15),
-  //           TextField(
-  //             controller: confirmCtrl,
-  //             obscureText: true,
-  //             decoration: const InputDecoration(
-  //               labelText: "Confirm Password",
-  //               border: OutlineInputBorder(),
-  //             ),
-  //           ),
-  //           const SizedBox(height: 25),
-  //           SizedBox(
-  //             width: double.infinity,
-  //             height: 45,
-  //             child: loading
-  //                 ? const CircularProgressIndicator()
-  //                 : ElevatedButton(
-  //                     onPressed: resetPassword,
-  //                     child: const Text("Confirm"),
-  //                   ),
-  //           )
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -161,7 +119,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
                 const SizedBox(height: 32),
 
-                /// NEW PASSWORD
                 TextField(
                   controller: passCtrl,
                   obscureText: obscurePass,
@@ -181,8 +138,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 ),
 
                 const SizedBox(height: 16),
-
-                /// CONFIRM PASSWORD
+                
                 TextField(
                   controller: confirmCtrl,
                   obscureText: obscureConfirm,
@@ -204,8 +160,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 ),
 
                 const SizedBox(height: 24),
-
-                /// SUBMIT BUTTON
+              
                 SizedBox(
                   height: 48,
                   child: ElevatedButton(
@@ -224,7 +179,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
                 const SizedBox(height: 16),
 
-                /// INFO
                 Text(
                   "Setelah password berhasil diubah, silakan login kembali",
                   textAlign: TextAlign.center,

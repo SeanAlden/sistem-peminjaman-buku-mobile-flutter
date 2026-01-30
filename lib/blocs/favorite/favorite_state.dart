@@ -1,4 +1,3 @@
-// lib/bloc/favorite/favorite_state.dart
 import 'package:equatable/equatable.dart';
 
 abstract class FavoriteState extends Equatable {
@@ -9,13 +8,6 @@ abstract class FavoriteState extends Equatable {
 class FavoriteInitial extends FavoriteState {}
 
 class FavoriteLoading extends FavoriteState {}
-
-// class FavoriteLoaded extends FavoriteState {
-//   final List<int> favoriteBookIds;
-//   FavoriteLoaded(this.favoriteBookIds);
-//   @override
-//   List<Object?> get props => [favoriteBookIds];
-// }
 
 class FavoriteLoaded extends FavoriteState {
   final List<dynamic> books;

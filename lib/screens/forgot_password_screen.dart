@@ -60,38 +60,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     );
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(title: const Text("Forgot Password")),
-  //     body: Padding(
-  //       padding: const EdgeInsets.all(20),
-  //       child: Column(
-  //         children: [
-  //           TextField(
-  //             controller: emailCtrl,
-  //             decoration: const InputDecoration(
-  //               labelText: "Email",
-  //               border: OutlineInputBorder(),
-  //             ),
-  //           ),
-  //           const SizedBox(height: 20),
-  //           SizedBox(
-  //             width: double.infinity,
-  //             height: 45,
-  //             child: loading
-  //                 ? const Center(child: CircularProgressIndicator())
-  //                 : ElevatedButton(
-  //                     onPressed: submitEmail,
-  //                     child: const Text("Submit"),
-  //                   ),
-  //           )
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,8 +73,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 30),
-
-            // ICON
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
@@ -119,10 +85,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 color: Colors.blue,
               ),
             ),
-
             const SizedBox(height: 24),
-
-            // TITLE
             const Text(
               "Lupa Password?",
               style: TextStyle(
@@ -130,10 +93,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-
             const SizedBox(height: 8),
-
-            // DESCRIPTION
             Text(
               "Masukkan email yang terdaftar. Kami akan mengirimkan kode verifikasi untuk mengatur ulang password Anda.",
               textAlign: TextAlign.center,
@@ -142,10 +102,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 color: Colors.grey.shade700,
               ),
             ),
-
             const SizedBox(height: 30),
-
-            // EMAIL INPUT
             TextField(
               controller: emailCtrl,
               keyboardType: TextInputType.emailAddress,
@@ -157,10 +114,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 border: OutlineInputBorder(),
               ),
             ),
-
             const SizedBox(height: 30),
-
-            // BUTTON
             SizedBox(
               width: double.infinity,
               height: 48,
@@ -193,10 +147,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       ),
               ),
             ),
-
             const SizedBox(height: 16),
-
-            // INFO TEXT
             Text(
               "Jika email terdaftar, kode verifikasi akan dikirim.",
               style: TextStyle(

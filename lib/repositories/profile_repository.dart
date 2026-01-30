@@ -33,58 +33,6 @@ class ProfileRepository {
     };
   }
 
-  // Future<void> updatePassword(
-  //   String current,
-  //   String newPass,
-  //   String confirm,
-  // ) async {
-  //   prefs = await SharedPreferences.getInstance();
-  //   token = prefs!.getString("auth_token");
-
-  //   await dio.put(
-  //     "/api/user/password",
-  //     data: {
-  //       "current_password": current,
-  //       "new_password": newPass,
-  //       "new_password_confirmation": confirm,
-  //     },
-  //     options: Options(headers: {
-  //       "Authorization": "Bearer $token",
-  //       "Accept": "application/json",
-  //     }),
-  //   );
-  // }
-
-  // Future<Map<String, dynamic>> updatePassword(
-  //   String current,
-  //   String newPass,
-  //   String confirm,
-  // ) async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   final token = prefs.getString("auth_token");
-
-  //   final uri = Uri.parse("$baseurl/api/user/password");
-
-  //   final response = await http.put(
-  //     uri,
-  //     headers: {
-  //       "Authorization": "Bearer $token",
-  //       "Accept": "application/json",
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: jsonEncode({
-  //       "current_password": current,
-  //       "new_password": newPass,
-  //       "new_password_confirmation": confirm,
-  //     }),
-  //   );
-
-  //   return {
-  //     "statusCode": response.statusCode,
-  //     "body": jsonDecode(response.body)
-  //   };
-  // }
-
   Future<void> updatePassword(
     String current,
     String newPass,
@@ -114,26 +62,6 @@ class ProfileRepository {
       throw Exception(body["message"] ?? "Gagal update password");
     }
   }
-
-  // Future<Map<String, dynamic>> updateProfileImage(String imagePath) async {
-  //   prefs = await SharedPreferences.getInstance();
-  //   token = prefs!.getString("auth_token");
-
-  //   final formData = FormData.fromMap({
-  //     'profile_image': await MultipartFile.fromFile(imagePath),
-  //   });
-
-  //   final response = await dio.post(
-  //     '/api/user/update-profile-image',
-  //     data: formData,
-  //     options: Options(headers: {
-  //       'Authorization': 'Bearer $token',
-  //       'Accept': 'application/json',
-  //     }),
-  //   );
-
-  //   return response.data;
-  // }
 
   Future<Map<String, dynamic>> updateProfileImage(String imagePath) async {
     final prefs = await SharedPreferences.getInstance();

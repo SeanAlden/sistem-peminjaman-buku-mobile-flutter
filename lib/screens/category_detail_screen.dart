@@ -19,21 +19,19 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
   Timer? refreshTimer;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final args = ModalRoute.of(context)!.settings.arguments as Map;
-    categoryId = args['categoryId'];
+  void initState() {
+    super.initState();
 
-    context
-        .read<CategoryDetailBloc>()
-        .add(FetchCategoryDetailEvent(categoryId)); // initial load
+    Future.microtask(() {
+      final args =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
 
-    // refreshTimer = Timer.periodic(
-    //   const Duration(seconds: 10),
-    //   (_) => context
-    //       .read<CategoryDetailBloc>()
-    //       .add(FetchCategoryDetailEvent(categoryId)),
-    // );
+      categoryId = args['categoryId'];
+
+      context
+          .read<CategoryDetailBloc>()
+          .add(FetchCategoryDetailEvent(categoryId));
+    });
   }
 
   @override
@@ -86,7 +84,6 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                   return GestureDetector(
                     onTap: () => Navigator.pushNamed(context, '/bookDetail',
                         arguments: {'bookId': item['id']}),
-
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -101,7 +98,6 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // IMAGE
                           ClipRRect(
                             borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(12),
@@ -118,7 +114,6 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                                       fit: BoxFit.contain),
                             ),
                           ),
-
                           Padding(
                             padding: const EdgeInsets.all(8),
                             child: Column(

@@ -7,7 +7,6 @@ abstract class ChatEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Load initial messages + init pusher
 class ChatStarted extends ChatEvent {
   final int otherUserId;
 
@@ -17,7 +16,6 @@ class ChatStarted extends ChatEvent {
   List<Object?> get props => [otherUserId];
 }
 
-/// Optimistic send
 class ChatSendMessage extends ChatEvent {
   final String message;
 
@@ -27,7 +25,6 @@ class ChatSendMessage extends ChatEvent {
   List<Object?> get props => [message];
 }
 
-/// Incoming from Pusher
 class ChatMessageReceived extends ChatEvent {
   final Map<String, dynamic> message;
 

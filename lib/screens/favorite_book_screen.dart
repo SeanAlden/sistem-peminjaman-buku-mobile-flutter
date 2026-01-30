@@ -15,27 +15,12 @@ class FavoriteBookScreen extends StatefulWidget {
 }
 
 class _FavoriteBookScreenState extends State<FavoriteBookScreen> {
-  // Timer? refreshTimer;
-
   @override
   void initState() {
     super.initState();
 
-    // fetch awal
     context.read<FavoriteBloc>().add(FetchFavoritesEvent());
-
-    // interval 10 detik
-    // refreshTimer = Timer.periodic(
-    //   const Duration(seconds: 10),
-    //   (_) => context.read<FavoriteBloc>().add(FetchFavoritesEvent()),
-    // );
   }
-
-  // @override
-  // void dispose() {
-  //   refreshTimer?.cancel();
-  //   super.dispose();
-  // }
 
   Future<void> _onRefresh() async {
     context.read<FavoriteBloc>().add(FetchFavoritesEvent());
@@ -57,22 +42,15 @@ class _FavoriteBookScreenState extends State<FavoriteBookScreen> {
       body: SafeArea(
         child: BlocBuilder<FavoriteBloc, FavoriteState>(
           builder: (context, state) {
-            // LOADING
             if (state is FavoriteLoading) {
               return const _LoadingView();
             }
 
-            // ERROR
             if (state is FavoriteError) {
               return _ErrorView(message: state.message);
             }
 
-            // DATA
             if (state is FavoriteLoaded) {
-              // if (state.favoriteBookIds.isEmpty) {
-              //   return const _EmptyView();
-              // }
-
               if (state.books.isEmpty) {
                 return const _EmptyView();
               }
@@ -81,10 +59,8 @@ class _FavoriteBookScreenState extends State<FavoriteBookScreen> {
                 onRefresh: _onRefresh,
                 child: ListView.builder(
                   padding: const EdgeInsets.symmetric(vertical: 10),
-                  // itemCount: state.favoriteBookIds.length,
                   itemCount: state.books.length,
                   itemBuilder: (context, index) {
-                    // final book = state.favoriteBookIds[index];
                     final book = state.books[index];
                     return BookItem(book: book);
                   },
@@ -172,4 +148,3 @@ class _EmptyView extends StatelessWidget {
     );
   }
 }
-
